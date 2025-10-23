@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container" style="margin-top:50px; display:flex; justify-content:center;">
+    <div class="card shadow" style="border-radius:20px; background-color:#1e1e2f; width:400px; padding:25px; color:white;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <div>
+                <h5 style="margin:0; font-weight:bold;">Speechify AI Summary</h5>
+                <small style="color:#aaa;">Short · Pages 1-4, 7-12</small>
+            </div>
+            <button style="background-color:#4f46e5; border:none; border-radius:50%; width:50px; height:50px; display:flex; justify-content:center; align-items:center; cursor:pointer;">
+                ▶️
+            </button>
+        </div>
+        <hr style="border-color:#333;">
+        <p style="color:#ccc; margin-top:15px;">Haz clic en el micrófono y habla para capturar tu voz.</p>
+        <div style="text-align:center; margin-top:20px;">
+            <button id="start-btn" style="background-color:#4f46e5; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer;">🎤</button>
+        </div>
+        <div style="margin-top:20px; color:#ddd;">
+            <p><strong>Texto reconocido:</strong> <span id="texto"></span></p>
+            <p><strong>Respuesta del backend:</strong> <span id="respuesta"></span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+const startBtn = document.getElementById('start-btn');
+const textoSpan = document.getElementById('texto');
+const respuestaSpan = document.getElementById('respuesta');
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SpeechRecognition) {
+    alert("Tu navegador no soporta reconocimiento de voz");
+} else {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false;
+
+    recognition.onstart = function() {
+        startBtn.style.backgroundColor = "#e11d48";
+    };
+
+    recognition.onend = function() {
+        startBtn.style.backgroundColor = "#4f46e5";
+    };
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        textoSpan.textContent = transcript;
+
+        fetch('/procesar_voz', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ texto: transcript })
+        })
+        .then(response => response.json())
+        .then(data => {
+            respuestaSpan.textContent = data.mensaje;
+        })
+        .catch(err => console.error(err));
+    };
+
+    startBtn.addEventListener('click', () => {
+        recognition.start();
+    });
+}
+</script>
+{% endblock %}
+
+

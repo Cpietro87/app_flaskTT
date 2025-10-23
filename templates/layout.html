@@ -5,18 +5,24 @@
     <meta charset="UTF-8">
     <title>{{ title or "Dashboard" }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block head %}{% endblock %}
 </head>
 
 <body>
     <header>
-        <h1>Panel de Usuarios</h1>
+        <h1>Dashboard</h1>
         <nav>
-            <a href="{{ url_for('routes_users.get_users') }}">Inicio</a>
+            <a href="/">Inicio</a>
         </nav>
     </header>
+
     <main>
         {% block content %}{% endblock %}
     </main>
+
+    <footer>
+        <p>© 2025 PietroCode</p>
+    </footer>
 </body>
 
 </html>

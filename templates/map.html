@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>Recorrido</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+
+    <style>
+        #map-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        #map {
+            height: 350px;        /* más chico */
+            width: 70%;           /* centrado y ancho moderado */
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h2>Recorrido</h2>
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        // Inicializar mapa centrado en Maipú, Mendoza
+        var map = L.map('map').setView([-32.904, -68.764], 15);
+
+        // Capa base
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Definir puntos del recorrido
+        var waypoints = [
+            L.latLng(-32.9005, -68.7680), // Dionisio Herrera
+            L.latLng(-32.9018, -68.7645), // Plaza de Maipú
+            L.latLng(-32.9025, -68.7620), // Punto 2
+            L.latLng(-32.9035, -68.7650), // Punto 3
+            L.latLng(-32.9005, -68.7680)  // Regreso
+        ];
+
+        // Crear ruta con estilo
+        var control = L.Routing.control({
+            waypoints: waypoints,
+            routeWhileDragging: false,
+            lineOptions: { styles: [{ color: 'blue', weight: 4 }] },
+            addWaypoints: false,
+            createMarker: function(i, wp) {
+                return L.marker(wp.latLng).bindPopup("Punto " + (i + 1));
+            }
+        }).addTo(map);
+
+        // Animación del recorrido
+        control.on('routesfound', function(e) {
+            var route = e.routes[0];
+            var line = route.coordinates;
+            var marcador = L.marker(line[0]).addTo(map).bindPopup("Vehículo").openPopup();
+            var index = 0;
+
+            function moverMarcador() {
+                index++;
+                if (index >= line.length) index = 0;
+                marcador.setLatLng(line[index]);
+
+                var inicio = new Date();
+                var tiempo = Math.floor((index / line.length) * 25);
+                var llegada = new Date(inicio.getTime() + tiempo * 60000);
+                marcador.bindPopup("Hora estimada: " + llegada.getHours() + ":" + llegada.getMinutes().toString().padStart(2, '0')).openPopup();
+            }
+
+            setInterval(moverMarcador, 1500);
+        });
+    </script>
+{% endblock %}

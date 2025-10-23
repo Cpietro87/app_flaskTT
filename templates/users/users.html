@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Lista de Usuarios</h2>
+<a class="btn create" href="{{ url_for('routes_users.register') }}">Registrar nuevo usuario</a>
 
 <table>
     <thead>
@@ -20,8 +21,8 @@
             <td>{{ user.email }}</td>
             <td>{{ user.password }}</td>
             <td>
-                <a class="btn edit" >Editar</a>
-                <a class="btn delete" >Eliminar</a>
+                <a class="btn edit" href="{{ url_for('routes_users.edit_user', id=user.id) }}">Editar</a>
+                <a class="btn delete" href="{{ url_for('routes_users.delete_user', id=user.id) }}">Eliminar</a>
             </td>
         </tr>
         {% endfor %}

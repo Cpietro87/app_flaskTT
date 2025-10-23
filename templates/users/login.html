@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Iniciar sesión</h2>
+
+{% if error %}
+  <p style="color:red;">{{ error }}</p>
+{% endif %}
+
+<form method="post" action="{{ url_for('routes_auth.login') }}">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Ingresar</button>
+    <a href="{{ url_for('routes_users.register') }}">¿No tenés cuenta? Registrate</a>
+    <a href="{{ url_for('routes_users.get_users') }}">Ingresar</a>
+
+</form>
+{% endblock %}

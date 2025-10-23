@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>Gráfico Chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        #chartContainer {
+            width: 70%;
+            margin: 50px auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h2 style="text-align:center;">Gráfico de Ejemplo</h2>
+    <div id="chartContainer">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'],
+                    datasets: [{
+                        label: 'Ventas',
+                        data: [12, 19, 3, 10, 2],
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
