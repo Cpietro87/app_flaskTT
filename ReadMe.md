@@ -71,3 +71,7 @@ pip install -r requirements.txt
 ```sh
 python app.py
 ```
+## Unit Test
+1. Instalar pytest
+pip install pytest pytest-flask
+

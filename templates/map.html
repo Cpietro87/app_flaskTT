@@ -13,8 +13,8 @@
         }
 
         #map {
-            height: 350px;        /* más chico */
-            width: 70%;           /* centrado y ancho moderado */
+            height: 350px;        
+            width: 70%;           
             border-radius: 15px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         }
@@ -37,7 +37,7 @@
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     <script>
-        // Inicializar mapa centrado en Maipú, Mendoza
+        // Inicializar mapa 
         var map = L.map('map').setView([-32.904, -68.764], 15);
 
         // Capa base
@@ -47,8 +47,8 @@
 
         // Definir puntos del recorrido
         var waypoints = [
-            L.latLng(-32.9005, -68.7680), // Dionisio Herrera
-            L.latLng(-32.9018, -68.7645), // Plaza de Maipú
+            L.latLng(-32.9005, -68.7680), // Inicio
+            L.latLng(-32.9018, -68.7645), // Punto 1
             L.latLng(-32.9025, -68.7620), // Punto 2
             L.latLng(-32.9035, -68.7650), // Punto 3
             L.latLng(-32.9005, -68.7680)  // Regreso
