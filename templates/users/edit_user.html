@@ -12,6 +12,12 @@
     <label>Contraseña</label>
     <input type="password" name="password" value="{{ user.password }}" required>
 
+    <label>Rol</label>
+    <select name="role" required>
+        <option value="user" {% if user.role=='user' %}selected{% endif %}>Usuario</option>
+        <option value="admin" {% if user.role=='admin' %}selected{% endif %}>Administrador</option>
+    </select>
+
     <button type="submit">Guardar cambios</button>
     <a href="{{ url_for('routes_users.get_users') }}">Cancelar</a>
 

@@ -1,4 +1,5 @@
 from flask import Flask, jsonify , render_template, request
+from flask_migrate import Migrate
 from models.db import db
 from config.config import DATABASE_CONNECTION_URI
 from routes.routes_users import routes_users as users
@@ -8,6 +9,7 @@ from routes.routes_hand import routes_hand as hand
 
 # Initialize Flask app
 app = Flask(__name__)
+app.secret_key = 'clave_super_secreta'
 
 # Register blueprints
 app.register_blueprint(users)
@@ -20,6 +22,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_CONNECTION_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'secretkey'
 db.init_app(app)
+
+# Initialize Flask-Migrate
+migrate = Migrate(app, db)
 
 # Create database tables
 with app.app_context():

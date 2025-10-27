@@ -17,3 +17,13 @@ numer_dos = 20
 
 print(userUno.mostrar_info())
 print(userDos.mostrar_info())
+
+def mayusculas(func):
+    def wrapper():
+        resultado = func()
+        return resultado.upper()
+    return wrapper
+
+@mayusculas
+def saludar():
+    return "hola mundo!!!"

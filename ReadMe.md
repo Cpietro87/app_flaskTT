@@ -73,5 +73,27 @@ python app.py
 ```
 ## Unit Test
 1. Instalar pytest
+```sh
 pip install pytest pytest-flask
+```
+
+## Migrations
+1. Intalar Flask Migrate
+```sh
+pip install Flask-Migrate
+```
+```sh
+flask db init
+```
+```sh
+flask db migrate -m "init"
+```
+```sh
+flsask db upgrade
+```
+## Counter Fingers
+```sh
+pip install opencv-python mediapipe
+```
+
 
